@@ -3,12 +3,23 @@ package ru.vsu.cs.oop26.vdovichenko_g_e.attas.atta1;
 import java.time.LocalTime;
 import java.util.Objects;
 
-
+/**
+ * Контейнер для основных моделей данных расписания:
+ * преподаватели, аудитории, группы, подгруппы и номера пар.
+ *
+ * @author Вдовиченко Г. Е.
+ */
 public class Models {
 
+    /**
+     * Класс для представления преподавателя.
+     */
     public static class Teacher {
         private final String fullName;
 
+        /**
+         * @param fullName ФИО преподавателя
+         */
         public Teacher(String fullName) { this.fullName = fullName; }
         public String getFullName() { return fullName; }
 
@@ -27,9 +38,15 @@ public class Models {
         public String toString() { return fullName; }
     }
 
+    /**
+     * Класс для аудитории.
+     */
     public static class Classroom {
         private final String number;
 
+        /**
+         * @param number Номер или название кабинета
+         */
         public Classroom(String number) { this.number = number; }
         public String getNumber() { return number; }
 
@@ -48,9 +65,15 @@ public class Models {
         public String toString() { return "ауд. " + number; }
     }
 
+    /**
+     * Студенческая учебная группа.
+     */
     public static class Group {
         private final String name;
 
+        /**
+         * @param name Название или номер группы
+         */
         public Group(String name) { this.name = name; }
         public String getName() { return name; }
 
@@ -69,10 +92,17 @@ public class Models {
         public String toString() { return "Группа " + name; }
     }
 
+    /**
+     * Подгруппа конкретной учебной группы (используется для лабораторных).
+     */
     public static class Subgroup {
         private final Group group;
         private final int subgroupNumber;
 
+        /**
+         * @param group Основная группа
+         * @param subgroupNumber Номер подгруппы (1 или 2)
+         */
         public Subgroup(Group group, int subgroupNumber) {
             this.group = group;
             this.subgroupNumber = subgroupNumber;
@@ -96,6 +126,9 @@ public class Models {
         public String toString() { return group.getName() + " (подгруппа " + subgroupNumber + ")"; }
     }
 
+    /**
+     * Перечисление пар с привязанным временем начала и окончания.
+     */
     public enum LessonNumber {
         FIRST(1, LocalTime.of(8, 0), LocalTime.of(9, 35)),
         SECOND(2, LocalTime.of(9, 45), LocalTime.of(11, 20)),

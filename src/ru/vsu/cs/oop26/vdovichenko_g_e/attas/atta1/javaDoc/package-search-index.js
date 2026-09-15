@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html","k":"18"},{"l":"ru.vsu.cs.oop26.vdovichenko_g_e.attas.atta1"}];updateSearchResults();

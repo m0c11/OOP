@@ -2,17 +2,32 @@ package ru.vsu.cs.oop26.vdovichenko_g_e.attas.atta1;
 
 import java.util.ArrayList;
 import java.util.List;
-import static ru.vsu.cs.oop26.vdovichenko_g_e.attas.atta1.Models.*;
 
+/**
+ * Пользовательское исключение для обработки конфликтов в расписании.
+ */
 class ScheduleConflictException extends Exception {
     public ScheduleConflictException(String message) {
         super(message);
     }
 }
 
+/**
+ * Главный менеджер для управления расписанием.
+ * Сохраняет список пар, проверяет накладки по аудиториям, преподавателям и группам.
+ *
+ * @author Вдовиченко Г. Е.
+ */
 public class Manager {
     private final List<Lesson> lessons = new ArrayList<>();
 
+    /**
+     * Добавляет занятие в список.
+     * Проверяет, не заняты ли на этот день и пару аудитория, преподаватель или студенты.
+     *
+     * @param newLesson добавляемая пара
+     * @throws ScheduleConflictException если найден конфликт со старыми занятиями
+     */
     public void addLesson(Lesson newLesson) throws ScheduleConflictException {
         for (Lesson existing : lessons) {
             if (existing.getDayOfWeek() == newLesson.getDayOfWeek() &&
@@ -46,7 +61,10 @@ public class Manager {
         lessons.add(newLesson);
     }
 
-    public int calculateTeacherHours(Teacher teacher) {
+    /**
+     * Подсчитывает суммарное число академических часов преподавателя.
+     */
+    public int calculateTeacherHours(Models.Teacher teacher) {
         int totalHours = 0;
         for (Lesson lesson : lessons) {
             if (lesson.getTeacher().equals(teacher)) {
@@ -56,7 +74,10 @@ public class Manager {
         return totalHours;
     }
 
-    public void printScheduleByGroup(Group group) {
+    /**
+     * Выводит расписание для выбранной группы.
+     */
+    public void printScheduleByGroup(Models.Group group) {
         System.out.println("--- Расписание для группы: " + group.getName() + " ---");
         for (Lesson lesson : lessons) {
             if (lesson.involvesGroup(group)) {
@@ -66,7 +87,10 @@ public class Manager {
         System.out.println();
     }
 
-    public void printScheduleByTeacher(Teacher teacher) {
+    /**
+     * Выводит расписание конкретного преподавателя.
+     */
+    public void printScheduleByTeacher(Models.Teacher teacher) {
         System.out.println("--- Расписание преподавателя: " + teacher.getFullName() + " ---");
         for (Lesson lesson : lessons) {
             if (lesson.getTeacher().equals(teacher)) {
@@ -76,7 +100,10 @@ public class Manager {
         System.out.println();
     }
 
-    public void printScheduleByClassroom(Classroom classroom) {
+    /**
+     * Выводит расписание занятий в указанной аудитории.
+     */
+    public void printScheduleByClassroom(Models.Classroom classroom) {
         System.out.println("--- Расписание аудитории: " + classroom.getNumber() + " ---");
         for (Lesson lesson : lessons) {
             if (lesson.getClassroom().equals(classroom)) {
@@ -86,11 +113,14 @@ public class Manager {
         System.out.println();
     }
 
+    /**
+     * Проверяет, пересекаются ли группы у двух разных пар.
+     */
     private boolean hasGroupIntersection(Lesson l1, Lesson l2) {
-        List<Group> groups1 = getGroupsFromLesson(l1);
-        List<Group> groups2 = getGroupsFromLesson(l2);
+        List<Models.Group> groups1 = getGroupsFromLesson(l1);
+        List<Models.Group> groups2 = getGroupsFromLesson(l2);
 
-        for (Group g1 : groups1) {
+        for (Models.Group g1 : groups1) {
             if (groups2.contains(g1)) {
                 return true;
             }
@@ -98,7 +128,10 @@ public class Manager {
         return false;
     }
 
-    private List<Group> getGroupsFromLesson(Lesson lesson) {
+    /**
+     * Достает список всех групп, задействованных в занятии.
+     */
+    private List<Models.Group> getGroupsFromLesson(Lesson lesson) {
         if (lesson instanceof Lecture lecture) {
             return lecture.getGroups();
         } else if (lesson instanceof Practice practice) {
