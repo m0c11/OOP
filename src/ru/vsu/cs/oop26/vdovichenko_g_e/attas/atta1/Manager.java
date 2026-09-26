@@ -141,4 +141,19 @@ public class Manager {
         }
         return List.of();
     }
+    /**
+     * Безопасное добавление занятия с автоматической обработкой ошибок.
+     * Если возникает конфликт, выводит сообщение в консоль и продолжает работу.
+     */
+    public void addLessonSafe(Lesson newLesson) {
+        try {
+            addLesson(newLesson);
+
+            System.out.println("Успешно добавлено: " + newLesson.getSubjectName() +
+                    " (" + newLesson.getDayOfWeek() + ", " + newLesson.getLessonNumber().getNumber() + "-я пара)");
+
+        } catch (ScheduleConflictException e) {
+            System.out.println("[ОШИБКА] Не удалось добавить занятие: " + e.getMessage());
+        }
+    }
 }
